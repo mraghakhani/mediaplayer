@@ -10,21 +10,17 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -54,10 +50,10 @@ public class Controller {
             mediaView.setMediaPlayer(mediaPlayer);
 
             DoubleProperty Width = mediaView.fitWidthProperty();
-            DoubleProperty Hight = mediaView.fitHeightProperty();
+            DoubleProperty Height = mediaView.fitHeightProperty();
 
             Width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-            Hight.bind(Bindings.selectDouble(mediaView.sceneProperty(), "hight"));
+            Height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
             mediaPlayer.play();
 
             mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
@@ -66,6 +62,8 @@ public class Controller {
                     progressBar.setValue(newValue.toSeconds());
 
                 }
+
+
             });
 
             progressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
