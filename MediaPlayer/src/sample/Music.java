@@ -2,22 +2,24 @@ package sample;
 
 public class Music
 {
-    private String id;
+    private int id;
     private String name;
     private String duration;
+    private boolean played;
 
-    public Music(String id,String name, String duration)
+    public Music(int id,String name, String duration)
     {
         this.id=id;
         this.name = name;
         this.duration = duration;
+        this.played=false;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -35,5 +37,13 @@ public class Music
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+    public boolean isPlayed() {
+        return played;
+    }
+
+    public void setPlayed(boolean played) {
+        this.played = played;
     }
 }

@@ -3,6 +3,7 @@ package sample;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -15,10 +16,12 @@ import javafx.stage.FileChooser;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class PlayList {
+public class PlayList implements Initializable {
     private String Path;
     private MediaPlayer mediaPlayer;
     @FXML
@@ -47,12 +50,11 @@ public class PlayList {
 
         if (Path != null) {
             Media media = new Media(Path);
+            Repository.songs.add(media);
             mediaPlayer = new MediaPlayer(media);
-            idcol.setCellValueFactory(new PropertyValueFactory<>("id"));
-            songcol.setCellValueFactory(new PropertyValueFactory<>("name"));
-            ducol.setCellValueFactory(new PropertyValueFactory<>("duration"));
-            viewsongs.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-            Music my=new Music("1",media.getSource(),media.getDuration().toString());
+
+            Music my=new Music(Repository.msongs.size(),media.getSource(),media.getDuration().toString());
+            Repository.msongs.add(my);
             viewsongs.getItems().addAll(my);
 
 
@@ -67,7 +69,18 @@ public class PlayList {
         {
             viewsongs.getItems().remove(emailall);
         }
+    }
 
-
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        idcol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        songcol.setCellValueFactory(new PropertyValueFactory<>("name"));
+        ducol.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        viewsongs.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        for (int i=0;i<Repository.msongs.size();i++)
+        {
+            viewsongs.getItems().add(Repository.msongs.get(i));
+        }
     }
 }

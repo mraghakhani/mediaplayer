@@ -10,9 +10,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableView;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -23,14 +25,17 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Controller {
+public class Controller implements Initializable {
 
     private String Path;
     private MediaPlayer mediaPlayer;
+    private Media media;
     @FXML
     private MediaView mediaView;
     @FXML
@@ -45,17 +50,58 @@ public class Controller {
         Path = file.toURI().toString();
 
         if (Path != null) {
-            Media media = new Media(Path);
+            media = new Media(Path);
             mediaPlayer = new MediaPlayer(media);
             mediaView.setMediaPlayer(mediaPlayer);
+            Music my=new Music(Repository.msongs.size(),media.getSource(),media.getDuration().toString());
+            Repository.msongs.add(my);
+            Repository.songs.add(media);
 
-            DoubleProperty Width = mediaView.fitWidthProperty();
-            DoubleProperty Height = mediaView.fitHeightProperty();
 
-            Width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-            Height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-            mediaPlayer.play();
+        }
 
+    }
+    public void playnext() {
+        if (mediaPlayer != null) {
+            //Media media;
+            mediaPlayer.setOnEndOfMedia(new Runnable() {
+                @Override
+                public void run() {
+                    //Media media=null;
+                    for (int i = 0; i < Repository.msongs.size(); i++) {
+                        if (!Repository.msongs.get(i).isPlayed()) {
+                            media = Repository.songs.get(i);
+                            mediaPlayer = new MediaPlayer(media);
+                            mediaPlayer.play();
+                            break;
+                        }
+                    }
+                    DoubleProperty Width = mediaView.fitWidthProperty();
+                    DoubleProperty Height = mediaView.fitHeightProperty();
+
+                    Width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+                    Height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+                    //mediaPlayer.play();
+
+
+                }
+            });
+        }
+    }
+
+    public void play(ActionEvent event) {
+        //Media media = null;
+        for (int i=0;i<Repository.msongs.size();i++)
+        {
+            if (!Repository.msongs.get(i).isPlayed())
+            {
+                media=Repository.songs.get(i);
+                mediaPlayer = new MediaPlayer(media);
+                mediaPlayer.play();
+                break;
+            }
+        }
+        if (mediaPlayer!=null) {
             mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                 @Override
                 public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
@@ -100,13 +146,8 @@ public class Controller {
                     mediaPlayer.setVolume(volumeSlidder.getValue() / 100);
                 }
             });
-
         }
-
-    }
-
-    public void play(ActionEvent event) {
-        mediaPlayer.play();
+        //mediaPlayer.play();
         mediaPlayer.setRate(1);
 
     }
@@ -152,6 +193,9 @@ public class Controller {
             Scene scene = new Scene(fxmlLoader.load(), 630, 400);
             Stage stage = new Stage();
             stage.setTitle("PlayList");
+            Image icon=null;
+            icon = new Image(this.getClass().getResource("icon.png").toExternalForm(), false);
+            stage.getIcons().add(icon);
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
@@ -162,5 +206,16 @@ public class Controller {
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        playnext();
+        DoubleProperty Width = mediaView.fitWidthProperty();
+        DoubleProperty Height = mediaView.fitHeightProperty();
 
+        //Width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+        //Height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+        //mediaPlayer.play();
+
+
+    }
 }
