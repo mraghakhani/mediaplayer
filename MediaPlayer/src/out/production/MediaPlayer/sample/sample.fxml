@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.media.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <center>
+      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <MediaView fx:id="mediaView" fitHeight="350.0" fitWidth="350.0" />
+            <VBox alignment="BOTTOM_CENTER" prefHeight="600.0" prefWidth="727.0" StackPane.alignment="BOTTOM_CENTER">
+               <children>
+                  <Slider fx:id="progressBar">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="20.0" right="20.0" />
+                     </VBox.margin>
+                  </Slider>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#ChoseFileFunction" text="File">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#play" text="Play">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#pause" text="Pause">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#stop" text="Stop">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#slowrate" text="&lt;&lt;">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#fastforward" text="&gt;&gt;">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#back10s" text="-10s">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#skip10s" text="+10s">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#handleButtonClick" text="PlayList">
+                           <HBox.margin>
+                              <Insets left="7.0" right="7.0" top="7.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Slider fx:id="volumeSlidder">
+                           <HBox.margin>
+                              <Insets left="9.0" top="16.0" />
+                           </HBox.margin>
+                        </Slider>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </StackPane>
+   </center>
+</BorderPane>
