@@ -15,7 +15,9 @@ import javax.imageio.ImageIO;
 import java.io.File;
 import java.net.URL;
 
-public class Main extends Application {
+public class Main extends Application
+{
+    Controller controller;
 
     @Override
     public void start(Stage primaryStage) throws Exception
@@ -24,7 +26,7 @@ public class Main extends Application {
         loader.setLocation(this.getClass().getResource("sample.fxml"));
         loader.load();
         Scene scene=new Scene(loader.getRoot(), 900, 600);
-
+        controller=loader.getController();
         primaryStage.setTitle("YSPlayer");
         Image icon=null;
         icon = new Image(this.getClass().getResource("icon.png").toExternalForm(), false);

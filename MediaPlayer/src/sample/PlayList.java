@@ -8,11 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -31,12 +29,6 @@ import java.util.ResourceBundle;
 public class PlayList implements Initializable {
     private String Path;
     private MediaPlayer mediaPlayer;
-    @FXML
-    private MediaView mediaView;
-    @FXML
-    private Slider progressBar;
-    @FXML
-    private Slider volumeSlidder;
 
     @FXML
     private TableView<Music> viewsongs;
@@ -46,7 +38,11 @@ public class PlayList implements Initializable {
     private TableColumn<Music,String> idcol;
     @FXML
     private TableColumn<Music,String> ducol;
+    public static MediaView thismediaview;
+    public static Slider thisprogressBar;
+    public static Slider thisvolumeSlidder;
 
+    Controller controller;
 
 
 
@@ -82,9 +78,12 @@ public class PlayList implements Initializable {
                     System.out.println(viewsongs.getSelectionModel().getSelectedItem());
                     //mediaPlayer=new MediaPlayer(new Media(viewsongs.getSelectionModel().getSelectedItem().getName()));
                     //Controller.setMedia(new Media(viewsongs.getSelectionModel().getSelectedItem().getName()));
-                    Controller.setMediaPlayer
-                            (new MediaPlayer(new Media(viewsongs.getSelectionModel().getSelectedItem().getName())));
-                    Controller.getMediaPlayer().play();
+                   // mediaPlayer=
+                            //(new MediaPlayer());
+                    FXMLLoader loader=new FXMLLoader();
+
+                    controller.playme(new Media(viewsongs.getSelectionModel().getSelectedItem().getName()));
+                    //mediaPlayer.play();
                     //Controller.getMediaView().setMediaPlayer(Controller.getMediaPlayer());
 
                     viewsongs.getScene().getWindow().hide();
@@ -101,16 +100,20 @@ public class PlayList implements Initializable {
         if (emailall!=null)
         {
             viewsongs.getItems().remove(emailall);
+            Repository.msongs.remove(Repository.msongs.stream()
+                    .filter(e->e.getName().equals(emailall.getName())).findAny().orElse(null));
+            Repository.songs.remove(Repository.songs.stream()
+                    .filter(e->e.getSource().equals(emailall.getName())).findAny().orElse(null));
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+
         idcol.setCellValueFactory(new PropertyValueFactory<>("id"));
         songcol.setCellValueFactory(new PropertyValueFactory<>("name"));
         ducol.setCellValueFactory(new PropertyValueFactory<>("duration"));
-        viewsongs.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         for (int i=0;i<Repository.msongs.size();i++)
         {
             viewsongs.getItems().add(Repository.msongs.get(i));

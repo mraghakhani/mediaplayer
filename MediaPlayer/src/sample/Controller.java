@@ -32,16 +32,24 @@ import java.util.logging.Logger;
 
 public class Controller implements Initializable {
 
-    private static String Path;
-    private static MediaPlayer mediaPlayer;
-    private static  Media media;
+    public  String Path;
+    public     MediaPlayer mediaPlayer;
+    public    Media media;
     @FXML
-    private static MediaView mediaView;
+    public  MediaView mediaView;
     @FXML
-    private static Slider progressBar;
+    public  Slider progressBar;
     @FXML
-    private static Slider volumeSlidder;
+    public  Slider volumeSlidder;
+    PlayList playList ;
 
+    public  void playme(Media media)
+    {
+        mediaPlayer=new MediaPlayer(media);
+        mediaPlayer.play();
+        mediaView.setMediaPlayer(mediaPlayer);
+        initializetools();
+    }
 
     public void ChoseFileFunction() {
         FileChooser fileChooser = new FileChooser();
@@ -49,26 +57,26 @@ public class Controller implements Initializable {
         Path = file.toURI().toString();
 
         if (Path != null) {
-            setMedia(new Media(Path));
-            setMediaPlayer(new MediaPlayer(getMedia()));
-            getMediaView().setMediaPlayer(getMediaPlayer());
-            Music my=new Music(Repository.msongs.size(), getMedia().getSource(), getMedia().getDuration().toString());
+            media=(new Media(Path));
+            mediaPlayer=(new MediaPlayer(media));
+            mediaView.setMediaPlayer(mediaPlayer);
+            Music my=new Music(Repository.msongs.size(), media.getSource(), media.getDuration().toString());
             Repository.msongs.add(my);
-            Repository.songs.add(getMedia());
+            Repository.songs.add(media);
         }
 
     }
     public void playnext() {
-        if (getMediaPlayer() != null) {
-            if (getProgressBar().getMax()== getProgressBar().getValue())
+        if (mediaPlayer != null) {
+            if (progressBar.getMax()== progressBar.getValue())
             {
                 Repository.msongs.stream().filter(e->e.getName()
-                        .equals(getMediaPlayer().getMedia().getSource())).findAny().orElse(null).setPlayed(true);
+                        .equals(mediaPlayer.getMedia().getSource())).findAny().orElse(null).setPlayed(true);
                 for (int i = 0; i < Repository.msongs.size(); i++) {
                     if (!Repository.msongs.get(i).isPlayed()) {
-                        setMedia(Repository.songs.get(i));
-                        setMediaPlayer(new MediaPlayer(getMedia()));
-                        getMediaPlayer().play();
+                        media=(Repository.songs.get(i));
+                        mediaPlayer=(new MediaPlayer(media));
+                        mediaPlayer.play();
                         break;
                     }
                 }
@@ -83,95 +91,102 @@ public class Controller implements Initializable {
         {
             if (!Repository.msongs.get(i).isPlayed())
             {
-                setMedia(Repository.songs.get(i));
-                setMediaPlayer(new MediaPlayer(getMedia()));
-                getMediaPlayer().play();
+                media=(Repository.songs.get(i));
+                mediaPlayer=(new MediaPlayer(media));
+                mediaPlayer.play();
+                mediaView.setMediaPlayer(mediaPlayer);
                 break;
             }
         }
-        if (getMediaPlayer() !=null) {
-            getMediaPlayer().currentTimeProperty().addListener(new ChangeListener<Duration>() {
+
+
+    }
+    public  void initializetools()
+    {
+        if (mediaPlayer !=null)
+        {
+            mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
                 @Override
                 public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                    getProgressBar().setValue(newValue.toSeconds());
+                    progressBar.setValue(newValue.toSeconds());
 
                 }
 
 
             });
 
-            getProgressBar().setOnMousePressed(new EventHandler<MouseEvent>() {
+            progressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    getMediaPlayer().seek(Duration.seconds(getProgressBar().getValue()));
+                    mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
 
                 }
             });
 
 
-            getMediaPlayer().setOnReady(new Runnable() {
+            mediaPlayer.setOnReady(new Runnable() {
                 @Override
                 public void run() {
-                    Duration total = getMedia().getDuration();
-                    getProgressBar().setMax(total.toSeconds());
+                    Duration total = media.getDuration();
+                    progressBar.setMax(total.toSeconds());
                 }
             });
 
 
-            getProgressBar().setOnMouseDragged(new EventHandler<MouseEvent>() {
+            progressBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    getMediaPlayer().seek(Duration.seconds(getProgressBar().getValue()));
+                    mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
 
                 }
             });
 
 
-            getVolumeSlidder().setValue(getMediaPlayer().getVolume() * 100);
-            getVolumeSlidder().valueProperty().addListener(new InvalidationListener() {
+            volumeSlidder.setValue(mediaPlayer.getVolume() * 100);
+            volumeSlidder.valueProperty().addListener(new InvalidationListener() {
                 @Override
                 public void invalidated(Observable observable) {
-                    getMediaPlayer().setVolume(getVolumeSlidder().getValue() / 100);
+                    mediaPlayer.setVolume(volumeSlidder.getValue() / 100);
                 }
             });
         }
         //mediaPlayer.play();
-        getMediaPlayer().setRate(1);
-
+        mediaPlayer.setRate(1);
     }
 
     public void pause(ActionEvent event) {
-        getMediaPlayer().pause();
+        mediaPlayer.pause();
 
     }
 
     public void stop(ActionEvent event) {
-        getMediaPlayer().stop();
-        getMediaView().setMediaPlayer(null);
+        mediaPlayer.stop();
+        mediaView.setMediaPlayer(null);
 
 
     }
 
     public void slowrate(ActionEvent event) {
-        getMediaPlayer().setRate(.75);
+        mediaPlayer.setRate(.75);
 
     }
 
     public void fastforward(ActionEvent event) {
-        getMediaPlayer().setRate(1.5);
+        mediaPlayer.setRate(1.5);
 
     }
 
     public void skip10s(ActionEvent event) {
-        getMediaPlayer().seek(getMediaPlayer().getCurrentTime().add(Duration.seconds(10)));
+        mediaPlayer.seek(mediaPlayer.getCurrentTime().add(Duration.seconds(10)));
 
     }
 
     public void back10s(ActionEvent event) {
-        getMediaPlayer().seek(getMediaPlayer().getCurrentTime().add(Duration.seconds(-10)));
+        mediaPlayer.seek(mediaPlayer.getCurrentTime().add(Duration.seconds(-10)));
 
 
     }
+
 
 
     public  void handleButtonClick (){
@@ -198,6 +213,9 @@ public class Controller implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
+        playList.thismediaview=mediaView;
+        playList.thisprogressBar=progressBar;
+        playList.thisvolumeSlidder=volumeSlidder;
 
         playnext();
         //DoubleProperty Width = getMediaView().fitWidthProperty();
@@ -213,43 +231,5 @@ public class Controller implements Initializable {
 
     }
 
-    public static MediaPlayer getMediaPlayer() {
-        return mediaPlayer;
-    }
 
-    public static void setMediaPlayer(MediaPlayer mediaPlayer) {
-        Controller.mediaPlayer = mediaPlayer;
-    }
-
-    public static MediaView getMediaView() {
-        return mediaView;
-    }
-
-    public static void setMediaView(MediaView mediaView) {
-        Controller.mediaView = mediaView;
-    }
-
-    public static Slider getProgressBar() {
-        return progressBar;
-    }
-
-    public static void setProgressBar(Slider progressBar) {
-        Controller.progressBar = progressBar;
-    }
-
-    public static Slider getVolumeSlidder() {
-        return volumeSlidder;
-    }
-
-    public static void setVolumeSlidder(Slider volumeSlidder) {
-        Controller.volumeSlidder = volumeSlidder;
-    }
-
-    public static Media getMedia() {
-        return media;
-    }
-
-    public static void setMedia(Media media) {
-        Controller.media = media;
-    }
 }
