@@ -21,6 +21,7 @@ import javafx.util.Duration;
 
 import javax.activation.MimetypesFileTypeMap;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +29,7 @@ import java.util.ResourceBundle;
 
 public class PlayList implements Initializable {
     private String Path;
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
     @FXML
     private TableView<Music> viewsongs;
@@ -52,7 +53,8 @@ public class PlayList implements Initializable {
         File file = fileChooser.showOpenDialog(null);
         Path = file.toURI().toString();
 
-        if (Path != null) {
+        if (Path != null)
+        {
             Media media = new Media(Path);
             Repository.songs.add(media);
             mediaPlayer = new MediaPlayer(media);
@@ -60,8 +62,6 @@ public class PlayList implements Initializable {
             Music my=new Music(Repository.msongs.size(),media.getSource(),media.getDuration().toString());
             Repository.msongs.add(my);
             viewsongs.getItems().addAll(my);
-
-
             //String name=detect
         }
     }
@@ -81,15 +81,18 @@ public class PlayList implements Initializable {
                    // mediaPlayer=
                             //(new MediaPlayer());
                     FXMLLoader loader=new FXMLLoader();
+                    loader.setLocation(this.getClass().getResource("sample.fxml"));
+                    try {
+                        loader.load();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    controller=loader.getController();
 
-                    controller.playme(new Media(viewsongs.getSelectionModel().getSelectedItem().getName()));
-                    //mediaPlayer.play();
-                    //Controller.getMediaView().setMediaPlayer(Controller.getMediaPlayer());
+                    controller.playme(viewsongs.getSelectionModel().getSelectedItem().getId());
+
 
                     viewsongs.getScene().getWindow().hide();
-                    //mediaView.setMediaPlayer(mediaPlayer);
-                    // mediaPlayer.play();
-
                 }
             }
         });

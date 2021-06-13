@@ -1,0 +1,22 @@
+
+L
+java:S1128"6Remove this unused import 'javafx.event.EventHandler'.(º»û˜
+M
+java:S1128
+"7Remove this unused import 'javafx.scene.input.KeyCode'.(ûÊ¢¶
+D
+java:S1128")Remove this unused import 'java.net.URL'.(ñìÁ„üÿÿÿÿ
+S
+java:S1128"8Remove this unused import 'javafx.scene.input.KeyEvent'.(¦¶ Æøÿÿÿÿ
+?
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å
+F
+java:S1128"0Remove this unused import 'javafx.scene.Parent'.(²ä¡È
+T
+java:S1128	"9Remove this unused import 'javafx.scene.image.ImageView'.(áÿ®Ãüÿÿÿÿ
+H
+java:S1128"2Remove this unused import 'javax.imageio.ImageIO'.(‘çÔû
+E
+java:S6212"/Declare this local variable with "var" instead.(Ó˜¶
+E
+java:S6212"/Declare this local variable with "var" instead.(ëäİø
