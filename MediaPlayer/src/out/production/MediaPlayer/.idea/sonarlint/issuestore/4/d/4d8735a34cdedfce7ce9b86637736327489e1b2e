@@ -1,25 +1,0 @@
-
-‹
-java:S1319
-"pThe type of the "songs" object should be an interface such as "List" rather than the implementation "ArrayList".(½ãÌ—þÿÿÿÿ
-Œ
-java:S1319"qThe type of the "msongs" object should be an interface such as "List" rather than the implementation "ArrayList".(•‰ŒÜøÿÿÿÿ
-F
-java:S1444
-"+Make this "public static songs" field final(½ãÌ—þÿÿÿÿ
-G
-java:S1444",Make this "public static msongs" field final(•‰ŒÜøÿÿÿÿ
-l
-java:S1104
-"QMake songs a static final constant or non-public and provide accessors if needed.(½ãÌ—þÿÿÿÿ
-m
-java:S1104"RMake msongs a static final constant or non-public and provide accessors if needed.(•‰ŒÜøÿÿÿÿ
-P
-java:S1128";Remove this unused import 'javafx.scene.media.MediaPlayer'.(‡µºU
-8
-java:S2386
-"Make this member "protected".(½ãÌ—þÿÿÿÿ
-8
-java:S2386"Make this member "protected".(•‰ŒÜøÿÿÿÿ
-U
-java:S1118":Add a private constructor to hide the implicit public one.(“Š›ºøÿÿÿÿ

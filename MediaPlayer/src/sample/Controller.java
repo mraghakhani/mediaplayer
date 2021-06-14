@@ -30,89 +30,75 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-public class Controller implements Initializable {
+public class Controller implements Initializable
+{
 
-    public  String Path;
-    public   static   MediaPlayer mediaPlayer;
-    public    Media media;
+    private   String Path;
+    private    static   MediaPlayer mediaPlayer;
+    private     Media media;
     @FXML
-    public  MediaView mediaView;
+    private   MediaView mediaView;
     @FXML
-    public  Slider progressBar;
+    private   Slider progressBar;
     @FXML
-    public  Slider volumeSlidder;
-    PlayList playList ;
-    MediaPlayer.Status status;
+    private   Slider volumeSlidder;
 
-
-    public  void playme(int index)
+    public void ChoseFileFunction()
     {
-        media=null;
-        mediaPlayer=null;
-        media=Repository.songs.get(index);
-        mediaPlayer= new MediaPlayer(media);
-        mediaPlayer.play();
-        mediaView.setMediaPlayer(mediaPlayer);
-        mediaPlayer.setRate(1);
-        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>()
-        {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
-            {
-                progressBar.setValue(newValue.toSeconds());
-            }
-        });
-        mediaPlayer.setOnReady(new Runnable()
-        {
-            @Override
-            public void run() {
-                Duration total =mediaPlayer.getMedia().getDuration();
-                progressBar.setMax(total.toSeconds());
-            }
-        });
-
-    }
-
-    public void ChoseFileFunction() {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
-        Path = file.toURI().toString();
+
+        //if i did not put path in a try catch block
+        //in case of not choosing a file and closing selecting file window
+        // program would give a null exception pointer
+        try {
+            Path = file.toURI().toString();
+
+        }catch(Exception e){}
 
         if (Path != null) {
             media=(new Media(Path));
             mediaPlayer=(new MediaPlayer(media));
-            mediaView.setMediaPlayer(mediaPlayer);
             Music my=new Music(Repository.msongs.size(), media.getSource(), media.getDuration().toString());
             Repository.msongs.add(my);
             Repository.songs.add(media);
         }
-        status=mediaPlayer.getStatus();
-
-
     }
-//index
 
     public void play(ActionEvent event)
     {
-        //Media media = null;
-        for (int i=0;i<Repository.msongs.size();i++)
-        {
-            media=null;
-            mediaPlayer=null;
-            if (!Repository.msongs.get(i).isPlayed())
-            {
-                media=(Repository.songs.get(i));
-                mediaPlayer=(new MediaPlayer(media));
+        //this if finds the first media that has not played
+        if(mediaPlayer.getStatus().equals(MediaPlayer.Status.READY)) {
+            for (int i = 0; i < Repository.msongs.size(); i++) {
+                media = null;
+                mediaPlayer = null;
+                if (!Repository.msongs.get(i).isPlayed()) {
+                    media = (Repository.songs.get(i));
+                    mediaPlayer = (new MediaPlayer(media));
 
-                mediaPlayer.play();
-                mediaView.setMediaPlayer(mediaPlayer);
-                mediaPlayer.setRate(1);
-                initializetools();
-                break;
+                    mediaPlayer.play();
+                    mediaView.setMediaPlayer(mediaPlayer);
+                    mediaPlayer.setRate(1);
+
+                    initializetools();
+                    break;
+                }
             }
         }
+        //this one resume the paused media
+        else if (mediaPlayer!=null&&mediaPlayer.getStatus().equals(MediaPlayer.Status.PAUSED))
+        {
+            mediaPlayer.currentRateProperty();
+            mediaPlayer.seek(mediaPlayer.getCurrentTime());
+            mediaPlayer.play();
+        }
+        //this method is for when media ends
+        //it sets the current media played
+        //then finds another media that has not been played
+        endandnext();
     }
 
+    //this method has been set in fxml file on mouse click event for the progressbar
     public void seek()
     {
         progressBar.setOnMousePressed(new EventHandler<MouseEvent>()
@@ -126,30 +112,43 @@ public class Controller implements Initializable {
         });
     }
 
+    //this method has been set in fxml file on drag and drop event for the progressbar
+    public  void draganddroponmainslider()
+    {
+        progressBar.setOnMouseDragged(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event) {
+                mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
+
+            }
+        });
+    }
+
+    //this on initializes sliders
     public  void initializetools()
     {
         if (mediaPlayer !=null)
         {
-
-
-
-
-
-
-
-
-            progressBar.setOnMouseDragged(new EventHandler<MouseEvent>()
+            mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>()
             {
                 @Override
-                public void handle(MouseEvent event) {
-                    mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
-
+                public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
+                {
+                    progressBar.setValue(newValue.toSeconds());
                 }
             });
-
-
+            mediaPlayer.setOnReady(new Runnable()
+            {
+                @Override
+                public void run() {
+                    Duration total =mediaPlayer.getMedia().getDuration();
+                    progressBar.setMax(total.toSeconds());
+                }
+            });
             volumeSlidder.setValue(mediaPlayer.getVolume() * 100);
-            volumeSlidder.valueProperty().addListener(new InvalidationListener() {
+            volumeSlidder.valueProperty().addListener(new InvalidationListener()
+            {
                 @Override
                 public void invalidated(Observable observable) {
                     mediaPlayer.setVolume(volumeSlidder.getValue() / 100);
@@ -159,63 +158,45 @@ public class Controller implements Initializable {
         }
     }
 
-    public void pause(ActionEvent event) {
+
+    public void pause(ActionEvent event)
+    {
         mediaPlayer.pause();
 
     }
 
-    public void stop(ActionEvent event) {
+    public void stop(ActionEvent event)
+    {
         mediaPlayer.stop();
         mediaView.setMediaPlayer(null);
-
-
     }
 
-    public void slowrate(ActionEvent event) {
-        mediaPlayer.setRate(.75);
-
+    //decreases 0.25 rate of the mediaplayer
+    public void slowrate(ActionEvent event)
+    {
+        mediaPlayer.setRate(mediaPlayer.getRate()-0.25);
     }
 
-    public void fastforward(ActionEvent event) {
-        mediaPlayer.setRate(1.5);
+    //increases 0.25 rate of the mediaplayer
+    public void fastforward(ActionEvent event)
 
+    {
+        mediaPlayer.setRate(mediaPlayer.getRate()+0.25);
     }
 
-    public void skip10s(ActionEvent event) {
+    public void skip10s(ActionEvent event)
+    {
         mediaPlayer.seek(mediaPlayer.getCurrentTime().add(Duration.seconds(10)));
 
     }
 
-    public void back10s(ActionEvent event) {
-        mediaPlayer.seek(mediaPlayer.getCurrentTime().add(Duration.seconds(-10)));
-
-
-    }
-
-
-
-    public  void handleButtonClick (){
-
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("PlayList.fxml"));
-            Scene scene = new Scene(fxmlLoader.load(), 630, 400);
-            Stage stage = new Stage();
-            stage.setTitle("PlayList");
-            Image icon=null;
-            icon = new Image(this.getClass().getResource("icon.png").toExternalForm(), false);
-            stage.getIcons().add(icon);
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException e) {
-            Logger logger = Logger.getLogger(getClass().getName());
-            logger.log(Level.SEVERE, "Failed to create new Window.", e);
-        }
-
-    }
-    public void intit()
+    public void back10s(ActionEvent event)
     {
+        mediaPlayer.seek(mediaPlayer.getCurrentTime().add(Duration.seconds(-10)));
+    }
 
+    public void endandnext()
+    {
         mediaPlayer.setOnEndOfMedia(new Runnable() {
             @Override
             public void run() {
@@ -235,36 +216,70 @@ public class Controller implements Initializable {
         });
     }
 
+    public  void handleButtonClick ()
+    {
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("PlayList.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 630, 400);
+            Stage stage = new Stage();
+            stage.setTitle("PlayList");
+            Image icon=null;
+            icon = new Image(this.getClass().getResource("icon.png").toExternalForm(), false);
+            stage.getIcons().add(icon);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            Logger logger = Logger.getLogger(getClass().getName());
+            logger.log(Level.SEVERE, "Failed to create new Window.", e);
+        }
+
+    }
+
+    //this method will be called from playlist controller
+    //in case of double click on an item in the table
+    public  void playme(int index)
+    {
+        if (mediaPlayer!=null)
+        {
+            mediaPlayer.stop();
+            media=null;
+            mediaPlayer=null;
+            mediaView.setMediaPlayer(null);
+        }
+
+        media=Repository.songs.get(index);
+        mediaPlayer= new MediaPlayer(media);
+        //mediaView=new MediaView();
+        //mediaView.setMediaPlayer(mediaPlayer);
+        DoubleProperty width = mediaView.fitWidthProperty();
+        DoubleProperty height = mediaView.fitHeightProperty();
+        width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+        height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+        mediaPlayer.play();
+        mediaPlayer.setRate(1);
+
+        volumeSlidder.setValue(mediaPlayer.getVolume() * 100);
+
+        volumeSlidder.valueProperty().addListener(new InvalidationListener()
+        {
+            @Override
+            public void invalidated(Observable observable) {
+                mediaPlayer.setVolume(volumeSlidder.getValue() / 100);
+            }
+        });
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
-        playList.thismediaview=mediaView;
-        playList.thisprogressBar=progressBar;
-        playList.thisvolumeSlidder=volumeSlidder;
-        //status.equals(MediaPlayer.Status.DISPOSED);
-        //mediaPlayer.getStatus().equals(MediaPlayer.Status.DISPOSED);
-        //mediaPlayer.seton
-        Thread thread=new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(mediaPlayer!=null&&mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
-                    initializetools();
-            }
-        });
-        thread.start();
-
-        DoubleProperty width = mediaView.fitWidthProperty();
-        DoubleProperty height = mediaView.fitHeightProperty();
-
-
-        width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-        height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-
-        //Width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
-        //Height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
-        //mediaPlayer.play();
+        try {
+            DoubleProperty width = mediaView.fitWidthProperty();
+            DoubleProperty height = mediaView.fitHeightProperty();
+            width.bind(Bindings.selectDouble(mediaView.sceneProperty(), "width"));
+            height.bind(Bindings.selectDouble(mediaView.sceneProperty(), "height"));
+        }catch(Exception e){}
 
 
     }

@@ -1,6 +1,7 @@
 package sample;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,6 +28,40 @@ public class Main extends Application
         loader.load();
         Scene scene=new Scene(loader.getRoot(), 900, 600);
         controller=loader.getController();
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>()
+        {
+            @Override
+            public void handle(KeyEvent event) {
+                switch(event.getCode())
+                {
+                    case ENTER:
+                        controller.play(new ActionEvent());
+                        break;
+                    case SPACE:
+                        controller.pause(new ActionEvent());
+                        break;
+                    case LEFT:
+                        controller.back10s(new ActionEvent());
+                        break;
+
+                    case RIGHT:
+                        controller.skip10s(new ActionEvent());
+                        break;
+                    case MINUS:
+                        controller.slowrate(new ActionEvent());
+                        break;
+                    case A:
+                        controller.skip10s(new ActionEvent());
+                        break;
+
+                    case D:
+                        controller.back10s(new ActionEvent());
+                        break;
+                    default :
+                        break;
+                }
+            }
+        });
         primaryStage.setTitle("YSPlayer");
         Image icon=null;
         icon = new Image(this.getClass().getResource("icon.png").toExternalForm(), false);

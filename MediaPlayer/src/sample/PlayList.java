@@ -28,8 +28,8 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class PlayList implements Initializable {
+
     private String Path;
-    private static MediaPlayer mediaPlayer;
 
     @FXML
     private TableView<Music> viewsongs;
@@ -39,9 +39,6 @@ public class PlayList implements Initializable {
     private TableColumn<Music,String> idcol;
     @FXML
     private TableColumn<Music,String> ducol;
-    public static MediaView thismediaview;
-    public static Slider thisprogressBar;
-    public static Slider thisvolumeSlidder;
 
     Controller controller;
 
@@ -51,18 +48,18 @@ public class PlayList implements Initializable {
     {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(null);
-        Path = file.toURI().toString();
+        try {
+            Path = file.toURI().toString();
+        }catch(Exception e){}
 
         if (Path != null)
         {
             Media media = new Media(Path);
             Repository.songs.add(media);
-            mediaPlayer = new MediaPlayer(media);
 
             Music my=new Music(Repository.msongs.size(),media.getSource(),media.getDuration().toString());
             Repository.msongs.add(my);
             viewsongs.getItems().addAll(my);
-            //String name=detect
         }
     }
     public void tableclick()
@@ -76,10 +73,6 @@ public class PlayList implements Initializable {
                 if (event.isPrimaryButtonDown() && event.getClickCount() == 2)
                 {
                     System.out.println(viewsongs.getSelectionModel().getSelectedItem());
-                    //mediaPlayer=new MediaPlayer(new Media(viewsongs.getSelectionModel().getSelectedItem().getName()));
-                    //Controller.setMedia(new Media(viewsongs.getSelectionModel().getSelectedItem().getName()));
-                   // mediaPlayer=
-                            //(new MediaPlayer());
                     FXMLLoader loader=new FXMLLoader();
                     loader.setLocation(this.getClass().getResource("sample.fxml"));
                     try {
@@ -88,10 +81,7 @@ public class PlayList implements Initializable {
                         e.printStackTrace();
                     }
                     controller=loader.getController();
-
                     controller.playme(viewsongs.getSelectionModel().getSelectedItem().getId());
-
-
                     viewsongs.getScene().getWindow().hide();
                 }
             }
