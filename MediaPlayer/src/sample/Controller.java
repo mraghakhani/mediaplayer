@@ -54,8 +54,22 @@ public class Controller implements Initializable {
         mediaPlayer.play();
         mediaView.setMediaPlayer(mediaPlayer);
         mediaPlayer.setRate(1);
-        initializetools();
-
+        mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>()
+        {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
+            {
+                progressBar.setValue(newValue.toSeconds());
+            }
+        });
+        mediaPlayer.setOnReady(new Runnable()
+        {
+            @Override
+            public void run() {
+                Duration total =mediaPlayer.getMedia().getDuration();
+                progressBar.setMax(total.toSeconds());
+            }
+        });
 
     }
 
@@ -78,7 +92,8 @@ public class Controller implements Initializable {
     }
 //index
 
-    public void play(ActionEvent event) {
+    public void play(ActionEvent event)
+    {
         //Media media = null;
         for (int i=0;i<Repository.msongs.size();i++)
         {
@@ -96,45 +111,35 @@ public class Controller implements Initializable {
                 break;
             }
         }
-
-        status=mediaPlayer.getStatus();
-
     }
+
+    public void seek()
+    {
+        progressBar.setOnMousePressed(new EventHandler<MouseEvent>()
+        {
+            @Override
+            public void handle(MouseEvent event)
+            {
+                mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
+
+            }
+        });
+    }
+
     public  void initializetools()
     {
         if (mediaPlayer !=null)
         {
-            mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-                @Override
-                public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue)
-                {
-                    progressBar.setValue(newValue.toSeconds());
-
-                }
 
 
-            });
-
-            progressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent event) {
-                    mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
-
-                }
-            });
 
 
-            mediaPlayer.setOnReady(new Runnable()
+
+
+
+
+            progressBar.setOnMouseDragged(new EventHandler<MouseEvent>()
             {
-                @Override
-                public void run() {
-                    Duration total =mediaPlayer.getMedia().getDuration();
-                    progressBar.setMax(total.toSeconds());
-                }
-            });
-
-
-            progressBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
@@ -152,7 +157,6 @@ public class Controller implements Initializable {
             });
 
         }
-        //mediaPlayer.play();
     }
 
     public void pause(ActionEvent event) {
