@@ -1,0 +1,68 @@
+
+C
+java:S1604h"(Make this anonymous inner class a lambda(îÃëœüÿÿÿÿ
+>
+java:S1604v"(Make this anonymous inner class a lambda(Œ·¬µ
+?
+java:S1604…"(Make this anonymous inner class a lambda(Õšéà
+?
+java:S1604"(Make this anonymous inner class a lambda(„„Ö¬
+D
+java:S1604–"(Make this anonymous inner class a lambda(ş¹¾Íıÿÿÿÿ
+D
+java:S1604È"(Make this anonymous inner class a lambda(êİÌûÿÿÿÿ
+D
+java:S1604‰"(Make this anonymous inner class a lambda(ş¹¾Íıÿÿÿÿ
+R
+java:S2589Y"7Remove this expression which always evaluates to "true"(°öã¿ûÿÿÿÿ
+i	java:S116$"ORename this field "Path" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒÚ°úÿÿÿÿÿ
+h	java:S100."NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê±İ¬ùÿÿÿÿ
+J
+java:S62120"/Declare this local variable with "var" instead.(¬Úÿÿÿÿÿ
+J
+java:S62121"/Declare this local variable with "var" instead.(°ß¸¨úÿÿÿÿ
+C	java:S1089")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ
+Q
+java:S2696="6Make the enclosing method "static" or remove this set.(˜œõúÿÿÿÿ
+J
+java:S6212>"/Declare this local variable with "var" instead.(õ¢šâùÿÿÿÿ
+G
+java:S1172D",Remove this unused method parameter "event".(Ùíÿûüÿÿÿÿ
+J
+java:S6212H"/Declare this local variable with "var" instead.(ãô™’şÿÿÿÿ
+L
+java:S2696J"6Make the enclosing method "static" or remove this set.(×¦¤Ú
+Q
+java:S2696M"6Make the enclosing method "static" or remove this set.(˜œõúÿÿÿÿ
+K
+java:S6212‘"/Declare this local variable with "var" instead.(ŸïòÇşÿÿÿÿ
+C
+java:S1172¢",Remove this unused method parameter "event".(”ıÏ£
+C
+java:S1172¨",Remove this unused method parameter "event".(óÜÑú
+H
+java:S1172¯",Remove this unused method parameter "event".(úşÏúÿÿÿÿ
+C
+java:S1172µ",Remove this unused method parameter "event".(…ÁŞø
+H
+java:S1172»",Remove this unused method parameter "event".(Ò·üÿÿÿÿ
+C
+java:S1172Á",Remove this unused method parameter "event".(‚È
+K
+java:S6212Î"/Declare this local variable with "var" instead.(ãô™’şÿÿÿÿ
+R
+java:S2696Ñ"6Make the enclosing method "static" or remove this set.(˜œõúÿÿÿÿ
+F
+java:S6212ß"/Declare this local variable with "var" instead.(âîÅø
+K
+java:S6212á"/Declare this local variable with "var" instead.(ÀÜĞşúÿÿÿÿ
+K
+java:S6212â"/Declare this local variable with "var" instead.(ƒÑÀ·ùÿÿÿÿ
+K
+java:S6212ê"/Declare this local variable with "var" instead.(Öõü´ÿÿÿÿÿ
+M
+java:S2696ø"6Make the enclosing method "static" or remove this set.(×¦¤Ú
+M
+java:S2696ı"6Make the enclosing method "static" or remove this set.(•œ†Î
+^	java:S125ş"<This block of commented-out lines of code should be removed.(û¹ğâıÿÿÿÿ8ì†àà /
+D	java:S108š")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ

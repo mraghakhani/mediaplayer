@@ -1,0 +1,20 @@
+
+=
+java:S1604"(Make this anonymous inner class a lambda(òäõ3
+D
+java:S1128")Remove this unused import 'java.net.URL'.(ñìÁ„üÿÿÿÿ
+F
+java:S1128"0Remove this unused import 'javafx.scene.Parent'.(²ä¡È
+H
+java:S1128"2Remove this unused import 'javax.imageio.ImageIO'.(‘çÔû
+M
+java:S1128"7Remove this unused import 'javafx.scene.input.KeyCode'.(ûÊ¢¶
+?
+java:S1128")Remove this unused import 'java.io.File'.(†Ğ¥Å
+T
+java:S1128
+"9Remove this unused import 'javafx.scene.image.ImageView'.(áÿ®Ãüÿÿÿÿ
+E
+java:S6212"/Declare this local variable with "var" instead.(Ó˜¶
+E
+java:S6212"/Declare this local variable with "var" instead.(ëäİø

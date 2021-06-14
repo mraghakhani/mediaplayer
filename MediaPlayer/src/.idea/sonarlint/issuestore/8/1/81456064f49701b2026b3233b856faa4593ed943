@@ -1,0 +1,43 @@
+
+S
+java:S1128"=Remove this unused import 'javafx.collections.FXCollections'.(´¶²Æ
+I
+java:S1128".Remove this unused import 'java.util.HashMap'.(™˜”€ùÿÿÿÿ
+O
+java:S1128"4Remove this unused import 'javafx.beans.Observable'.(æ ûÿÿÿÿ
+X
+java:S1128"BRemove this unused import 'javax.activation.MimetypesFileTypeMap'.(œ´ú
+Y
+java:S1128">Remove this unused import 'javafx.beans.InvalidationListener'.(í¿ïÈşÿÿÿÿ
+T
+java:S1128"9Remove this unused import 'javafx.scene.media.MediaView'.(…Üáïşÿÿÿÿ
+G
+java:S1128"1Remove this unused import 'javafx.util.Duration'.(ç½®§
+E
+java:S1128"*Remove this unused import 'java.util.Map'.(¼è½Òşÿÿÿÿ
+U
+java:S1128"?Remove this unused import 'javafx.beans.value.ObservableValue'.(´œ«Å
+Y
+java:S1128">Remove this unused import 'javafx.collections.ObservableList'.(ÄÜ€éüÿÿÿÿ
+T
+java:S1128">Remove this unused import 'javafx.beans.value.ChangeListener'.(¸÷Í
+W
+java:S1128";Remove this unused import 'javafx.scene.media.MediaPlayer'.(‡µºU8Ö˜‘ß /
+i	java:S116 "ORename this field "Path" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŒÚ°úÿÿÿÿÿ
+h	java:S100/"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ê±İ¬ùÿÿÿÿ
+J
+java:S62121"/Declare this local variable with "var" instead.(¬Úÿÿÿÿÿ
+J
+java:S62122"/Declare this local variable with "var" instead.(°ß¸¨úÿÿÿÿ
+C	java:S1085")Either remove or fill this block of code.(¬Àáªøÿÿÿÿ
+E
+java:S62129"/Declare this local variable with "var" instead.(Å‚Å
+J
+java:S6212<"/Declare this local variable with "var" instead.(õ¢šâùÿÿÿÿ
+N	java:S106K"9Replace this use of System.out or System.err by a logger.(îÛª³
+E
+java:S6212L"/Declare this local variable with "var" instead.(Ó˜¶
+C
+java:S1905\"(Remove this unnecessary cast to "Music".(ã÷™ñùÿÿÿÿ
+J
+java:S6212n"/Declare this local variable with "var" instead.(Â¶Ôçüÿÿÿÿ
